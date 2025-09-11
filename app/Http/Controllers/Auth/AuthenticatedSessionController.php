@@ -38,14 +38,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // === Tambahan: cek verifikasi email ===
-        if (! $request->user()->hasVerifiedEmail()) {
-            Auth::logout();
-            return back()
-                ->withErrors(['email' => 'Email kamu belum diverifikasi. Cek inbox/spam untuk tautan verifikasi.'])
-                ->withInput();
-        }
-
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
