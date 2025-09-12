@@ -54,6 +54,71 @@
 
   {{-- Grid: About & Highlight --}}
     <x-glass-card title="Tentang Event" subtitle="Tujuan & target peserta">
+    <div x-data="carousel({
+            images: [
+            { src: '{{ asset('images/income/DSC02267.JPG') }}', alt: 'Dokumentasi INCOME 1' },
+            { src: '{{ asset('images/income/DSC02307.JPG') }}', alt: 'Dokumentasi INCOME 2' },
+            { src: '{{ asset('images/income/DSC02315.JPG') }}', alt: 'Dokumentasi INCOME 3' },
+            ],
+            interval: 5000 // auto-slide 5 detik; set 0 untuk non-otomatis
+        })"
+        class="mb-5"
+        >
+        <div class="relative select-none">
+            <div
+            class="overflow-hidden rounded-2xl border border-white/30 bg-white/60 backdrop-blur"
+            @touchstart.passive="onTouchStart($event)" @touchend.passive="onTouchEnd($event)"
+            >
+            {{-- Gunakan aspect ratio agar tinggi konsisten meski ukuran gambar beda --}}
+            <div class="relative w-full aspect-[16/9]">
+                <template x-for="(img, i) in images" :key="i">
+                <img
+                    x-show="index === i"
+                    x-transition.opacity
+                    :src="img.src" :alt="img.alt"
+                    class="absolute inset-0 h-full w-full object-contain bg-neutral-100"
+                    loading="lazy"
+                    draggable="false"
+                >
+                </template>
+            </div>
+            </div>
+
+            {{-- Tombol prev/next --}}
+            <button
+            type="button" @click="prev"
+            class="absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full
+                    bg-white/80 shadow ring-1 ring-black/5 hover:bg-white"
+            aria-label="Sebelumnya"
+            >
+            <svg class="h-5 w-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
+            </svg>
+            </button>
+            <button
+            type="button" @click="next"
+            class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full
+                    bg-white/80 shadow ring-1 ring-black/5 hover:bg-white"
+            aria-label="Berikutnya"
+            >
+            <svg class="h-5 w-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+            </svg>
+            </button>
+
+            {{-- Dots indikator --}}
+            <div class="absolute inset-x-0 bottom-2 flex items-center justify-center gap-2">
+            <template x-for="(img, i) in images" :key="'dot'+i">
+                <button
+                type="button" @click="go(i)"
+                class="h-1.5 w-4 rounded-full transition"
+                :class="index===i ? 'bg-gray-900' : 'bg-gray-400/60 hover:bg-gray-500/70'"
+                :aria-label="`Ke slide ${i+1}`"
+                ></button>
+            </template>
+            </div>
+        </div>
+        </div>
         <div class="prose prose-sm max-w-none text-gray-700">
             <p>
                 INCOME merupakan kompetisi dalam bidang Karya Tulis Ilmiah yang ditujukan kepada siswa/siswi SMA/SMK sederajat untuk meningkatkan kreativitas dan inovasi dalam bidang Instrumentasi. INCOME membawakan tema “Youth Collaboration dan Innovation to Achieve SDGs 2030” dan dari tema tersebut memiliki beberapa subtema yaitu Renewable energy, Kesehatan, Sistem Otomasi, Pertanian, dan Lingkungan. Perlombaan dilakukan dengan beranggotakan maksimal 2 orang dalam satu tim. Peserta  melalui beberapa tahap penilaian mulai dari tahap seleksi abstrak, seleksi full paper, dan presentasi. Pada perlombaan ini, tahap presentasi dilakukan secara Offline.

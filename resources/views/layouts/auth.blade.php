@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>{{ config('app.name', 'Laravel') }}</title>
+  <link rel="icon" href="{{ asset('images/logo.png') }}?v=1">
 
   {{-- Tailwind via CDN (no build) --}}
   <script>
@@ -35,14 +36,17 @@
         {{-- Brand / Logo --}}
         <div class="mb-8 flex items-center justify-center">
           <a href="{{ url('/') }}" class="group inline-flex items-center gap-2">
-            <div class="grid h-10 w-10 place-items-center rounded-2xl bg-cyan-500 text-white shadow-lg ring-1 ring-cyan-400/50">
-              <!-- Simple spark icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform group-hover:rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 3v4m0 10v4m7-7h-4M9 12H5m9.192-5.192l2.829 2.829M6.979 14.95l-2.829 2.828m0-10.606l2.829 2.829m10.606 0l2.829-2.829"/>
-              </svg>
-            </div>
-            <span class="text-xl font-semibold text-cyan-700">{{ config('app.name','Laravel') }}</span>
+          <div class="relative h-10 w-10 overflow-hidden rounded-xl">
+            <img
+              src="{{ asset('images/logo.png') }}"
+              srcset="{{ asset('images/logo.png') }} 1x, {{ asset('images/logo.png') }} 2x"
+              alt="{{ config('app.name', 'App') }} logo"
+              class="absolute inset-0 h-full w-full object-contain"
+              loading="lazy"
+              draggable="false"
+            >
+          </div>
+            <span class="text-xl font-semibold text-cyan-700">INFEST 2026</span>
           </a>
         </div>
 
@@ -62,7 +66,7 @@
 
         {{-- Footer small text --}}
         <p class="mt-6 text-center text-xs text-gray-500">
-          © {{ date('Y') }} {{ config('app.name','Laravel') }} — All rights reserved.
+          © {{ date('Y') }} INFEST — All rights reserved.
         </p>
       </div>
     </div>

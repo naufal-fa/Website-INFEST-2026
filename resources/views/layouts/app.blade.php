@@ -9,6 +9,9 @@
   {{-- Tailwind via CDN (tanpa npm) --}}
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <link rel="icon" href="{{ asset('images/logo.png') }}?v=1">
+
+
   {{-- Inter font (opsional) --}}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,13 +40,17 @@
         </button>
 
         <a href="{{ url('/') }}" class="flex items-center gap-2">
-          <div class="grid h-9 w-9 place-items-center rounded-xl bg-cyan-500 text-white ring-1 ring-cyan-400/50 shadow">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 3v4m0 10v4m7-7h-4M9 12H5m9.192-5.192l2.829 2.829M6.979 14.95l-2.829 2.828m0-10.606l2.829 2.829m10.606 0l2.829-2.829"/>
-            </svg>
+          <div class="relative h-9 w-9 overflow-hidden rounded-xl bg-white">
+            <img
+              src="{{ asset('images/logo.png') }}"
+              srcset="{{ asset('images/logo.png') }} 1x, {{ asset('images/logo.png') }} 2x"
+              alt="{{ config('app.name', 'App') }} logo"
+              class="absolute inset-0 h-full w-full object-contain"
+              loading="lazy"
+              draggable="false"
+            >
           </div>
-          <span class="text-lg font-semibold text-cyan-700">{{ config('app.name','Laravel') }}</span>
+          <span class="text-lg font-semibold text-cyan-700">INFEST 2026</span>
         </a>
       </div>
 
@@ -219,6 +226,35 @@
         };
         xhr.send(fd);
       }
+    }
+  }
+</script>
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>
+  function carousel({ images = [], interval = 0 } = {}) {
+    return {
+      images,
+      index: 0,
+      timer: null,
+      startX: null,
+      next(){ this.index = (this.index + 1) % this.images.length; },
+      prev(){ this.index = (this.index - 1 + this.images.length) % this.images.length; },
+      go(i){ this.index = i; this.autoplay(); },
+      autoplay(){
+        if (!interval) return;
+        this.stop();
+        this.timer = setInterval(() => this.next(), interval);
+      },
+      stop(){ if (this.timer) { clearInterval(this.timer); this.timer = null; } },
+      onTouchStart(e){ this.startX = e.touches[0].clientX; },
+      onTouchEnd(e){
+        if (this.startX === null) return;
+        const dx = e.changedTouches[0].clientX - this.startX;
+        if (Math.abs(dx) > 40) { dx < 0 ? this.next() : this.prev(); }
+        this.startX = null;
+        this.autoplay();
+      },
+      init(){ this.autoplay(); }
     }
   }
 </script>

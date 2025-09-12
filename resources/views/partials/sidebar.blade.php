@@ -1,6 +1,4 @@
 @php
-  // Konfigurasi menu (silakan sesuaikan route/name)
-  $showAdmin = auth()->check() && ( Gate::allows('access-admin') || (auth()->user()->is_admin ?? false) );
   $menus = [
     [
       'label' => 'Dashboard',
