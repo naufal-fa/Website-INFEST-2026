@@ -112,7 +112,7 @@
 
   <footer class="mt-8 border-t border-cyan-100 bg-white/60">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 text-xs text-gray-500 text-center">
-      © {{ date('Y') }} {{ config('app.name','Laravel') }} — All rights reserved.
+      © {{ date('Y') }} INFEST — All rights reserved.
     </div>
   </footer>
 
