@@ -22,6 +22,8 @@
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-cyan-50 via-white to-white">
+  {{-- Intro Animation --}}
+  <x-intro-animation />
   {{-- Background bubbles --}}
   <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
     <div class="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-cyan-100 blur-3xl opacity-60"></div>
@@ -257,6 +259,170 @@
       init(){ this.autoplay(); }
     }
   }
+</script>
+<style>
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideInFromLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+
+/* Base Animation Classes */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-float-in {
+  animation: floatIn 1s ease-out forwards;
+  opacity: 0;
+}
+
+/* Delay Classes */
+.delay-300 { animation-delay: 0.3s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-900 { animation-delay: 0.9s; }
+.delay-1100 { animation-delay: 1.1s; }
+.delay-1300 { animation-delay: 1.3s; }
+
+/* Letter Animation for Title */
+.letter-animation .letter {
+  display: inline-block;
+  animation: slideUp 0.8s ease-out forwards;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+
+
+/* Enhanced Hover Effects */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.nav-btn-hover {
+  transition: all 0.3s ease;
+}
+
+.nav-btn-hover:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-hover-effect {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-hover-effect:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn-hover-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-hover-effect:hover::before {
+  left: 100%;
+}
+
+/* Timeline Animations */
+.timeline-item {
+  animation: slideInFromLeft 0.8s ease-out forwards;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+
+.timeline-dot {
+  transition: all 0.3s ease;
+}
+
+.timeline-dot:hover {
+  transform: scale(1.2);
+}
+
+/* Carousel Enhancements */
+.dot-indicator {
+  transition: all 0.3s ease;
+}
+
+.dot-indicator:hover {
+  transform: scale(1.2);
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .letter-animation .letter {
+    animation-duration: 0.6s;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Enhanced input focus effects
+  const inputs = document.querySelectorAll('input, textarea, select');
+  inputs.forEach(input => {
+    input.addEventListener('focus', function() {
+      this.style.transform = 'translateY(-1px)';
+      this.style.boxShadow = '0 4px 15px rgba(6, 182, 212, 0.1)';
+    });
+
+    input.addEventListener('blur', function() {
+      this.style.transform = '';
+      this.style.boxShadow = '';
+    });
+  });
+
+  // Timeline stagger animation
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  timelineItems.forEach((item, index) => {
+    item.style.setProperty('--delay', (index * 0.1) + 's');
+  });
+
+});
 </script>
 </body>
 </html>

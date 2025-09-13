@@ -1,5 +1,7 @@
 @extends('layouts.auth')
 
+@section('title', 'Sign In')
+
 @section('content')
   <div class="mb-6 text-center">
     <h1 class="text-2xl font-semibold text-gray-800">Welcome back</h1>
@@ -51,7 +53,7 @@
     </div>
 
     {{-- Submit --}}
-    <button type="submit"
+    <button type="submit" id="login-submit"
             class="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-600 px-4 py-2.5 font-semibold text-white shadow-md shadow-cyan-200 transition hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-300">
       Sign In <span class="transition-transform group-hover:translate-x-0.5">→</span>
     </button>

@@ -36,7 +36,7 @@
 
 @section('content')
   {{-- Breadcrumb + Header --}}
-  <div class="mb-6 flex items-center justify-between gap-3">
+  <div class="mb-6 flex items-center justify-between gap-3 animate-fade-in">
     <div>
       <nav class="text-xs text-gray-500">
         <ol class="flex items-center gap-1">
@@ -48,86 +48,87 @@
         </ol>
       </nav>
       <h1 class="mt-2 text-2xl font-semibold text-gray-900">INCOME</h1>
-      <p class="mt-1 text-sm text-gray-600">Halaman event INCOME — informasi umum, agenda, FAQ, dan pendaftaran.</p>
+      <p class="mt-1 text-sm text-gray-600 animate-slide-up delay-300">Halaman event INCOME — informasi umum, agenda, FAQ, dan pendaftaran.</p>
     </div>
   </div>
 
-  {{-- Grid: About & Highlight --}}
-    <x-glass-card title="Tentang Event" subtitle="Tujuan & target peserta">
-    <div x-data="carousel({
-            images: [
-            { src: '{{ asset('images/income/DSC02267.JPG') }}', alt: 'Dokumentasi INCOME 1' },
-            { src: '{{ asset('images/income/DSC02307.JPG') }}', alt: 'Dokumentasi INCOME 2' },
-            { src: '{{ asset('images/income/DSC02315.JPG') }}', alt: 'Dokumentasi INCOME 3' },
-            ],
-            interval: 5000 // auto-slide 5 detik; set 0 untuk non-otomatis
-        })"
-        class="mb-5"
-        >
-        <div class="relative select-none">
-            <div
-            class="overflow-hidden rounded-2xl border border-white/30 bg-white/60 backdrop-blur"
-            @touchstart.passive="onTouchStart($event)" @touchend.passive="onTouchEnd($event)"
+    {{-- Grid: About & Highlight --}}
+    <div class="animate-float-in delay-500">
+        <x-glass-card title="Tentang Event" subtitle="Tujuan & target peserta">
+        <div x-data="carousel({
+                images: [
+                { src: '{{ asset('images/income/DSC02267.JPG') }}', alt: 'Dokumentasi INCOME 1' },
+                { src: '{{ asset('images/income/DSC02307.JPG') }}', alt: 'Dokumentasi INCOME 2' },
+                { src: '{{ asset('images/income/DSC02315.JPG') }}', alt: 'Dokumentasi INCOME 3' },
+                ],
+                interval: 5000 // auto-slide 5 detik; set 0 untuk non-otomatis
+            })"
+            class="mb-5"
             >
-            {{-- Gunakan aspect ratio agar tinggi konsisten meski ukuran gambar beda --}}
-            <div class="relative w-full aspect-[16/9]">
-                <template x-for="(img, i) in images" :key="i">
-                <img
-                    x-show="index === i"
-                    x-transition.opacity
-                    :src="img.src" :alt="img.alt"
-                    class="absolute inset-0 h-full w-full object-contain bg-neutral-100"
-                    loading="lazy"
-                    draggable="false"
+            <div class="relative select-none">
+                <div
+                class="overflow-hidden rounded-2xl border border-white/30 bg-white/60 backdrop-blur"
+                @touchstart.passive="onTouchStart($event)" @touchend.passive="onTouchEnd($event)"
                 >
-                </template>
-            </div>
-            </div>
+                {{-- Gunakan aspect ratio agar tinggi konsisten meski ukuran gambar beda --}}
+                <div class="relative w-full aspect-[16/9]">
+                    <template x-for="(img, i) in images" :key="i">
+                    <img
+                        x-show="index === i"
+                        x-transition.opacity
+                        :src="img.src" :alt="img.alt"
+                        class="absolute inset-0 h-full w-full object-contain bg-neutral-100"
+                        loading="lazy"
+                        draggable="false"
+                    >
+                    </template>
+                </div>
+                </div>
 
-            {{-- Tombol prev/next --}}
-            <button
-            type="button" @click="prev"
-            class="absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full
-                    bg-white/80 shadow ring-1 ring-black/5 hover:bg-white"
-            aria-label="Sebelumnya"
-            >
-            <svg class="h-5 w-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
-            </svg>
-            </button>
-            <button
-            type="button" @click="next"
-            class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full
-                    bg-white/80 shadow ring-1 ring-black/5 hover:bg-white"
-            aria-label="Berikutnya"
-            >
-            <svg class="h-5 w-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
-            </svg>
-            </button>
-
-            {{-- Dots indikator --}}
-            <div class="absolute inset-x-0 bottom-2 flex items-center justify-center gap-2">
-            <template x-for="(img, i) in images" :key="'dot'+i">
+                {{-- Tombol prev/next --}}
                 <button
-                type="button" @click="go(i)"
-                class="h-1.5 w-4 rounded-full transition"
-                :class="index===i ? 'bg-gray-900' : 'bg-gray-400/60 hover:bg-gray-500/70'"
-                :aria-label="`Ke slide ${i+1}`"
-                ></button>
-            </template>
-            </div>
-        </div>
-        </div>
-        <div class="prose prose-sm max-w-none text-gray-700">
-            <p>
-                INCOME merupakan kompetisi dalam bidang Karya Tulis Ilmiah yang ditujukan kepada siswa/siswi SMA/SMK sederajat untuk meningkatkan kreativitas dan inovasi dalam bidang Instrumentasi. INCOME membawakan tema “Youth Collaboration dan Innovation to Achieve SDGs 2030” dan dari tema tersebut memiliki beberapa subtema yaitu Renewable energy, Kesehatan, Sistem Otomasi, Pertanian, dan Lingkungan. Perlombaan dilakukan dengan beranggotakan maksimal 2 orang dalam satu tim. Peserta  melalui beberapa tahap penilaian mulai dari tahap seleksi abstrak, seleksi full paper, dan presentasi. Pada perlombaan ini, tahap presentasi dilakukan secara Offline.
-            </p>
-        </div>
-    </x-glass-card>
+                type="button" @click="prev"
+                class="absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full
+                        bg-white/80 shadow ring-1 ring-black/5 hover:bg-white"
+                aria-label="Sebelumnya"
+                >
+                <svg class="h-5 w-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
+                </svg>
+                </button>
+                <button
+                type="button" @click="next"
+                class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full
+                        bg-white/80 shadow ring-1 ring-black/5 hover:bg-white"
+                aria-label="Berikutnya"
+                >
+                <svg class="h-5 w-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+                </svg>
+                </button>
 
+                {{-- Dots indikator --}}
+                <div class="absolute inset-x-0 bottom-2 flex items-center justify-center gap-2">
+                <template x-for="(img, i) in images" :key="'dot'+i">
+                    <button
+                    type="button" @click="go(i)"
+                    class="h-1.5 w-4 rounded-full transition"
+                    :class="index===i ? 'bg-gray-900' : 'bg-gray-400/60 hover:bg-gray-500/70'"
+                    :aria-label="`Ke slide ${i+1}`"
+                    ></button>
+                </template>
+                </div>
+            </div>
+            </div>
+            <div class="prose prose-sm max-w-none text-gray-700">
+                <p>
+                    INCOME merupakan kompetisi dalam bidang Karya Tulis Ilmiah yang ditujukan kepada siswa/siswi SMA/SMK sederajat untuk meningkatkan kreativitas dan inovasi dalam bidang Instrumentasi. INCOME membawakan tema “Youth Collaboration dan Innovation to Achieve SDGs 2030” dan dari tema tersebut memiliki beberapa subtema yaitu Renewable energy, Kesehatan, Sistem Otomasi, Pertanian, dan Lingkungan. Perlombaan dilakukan dengan beranggotakan maksimal 2 orang dalam satu tim. Peserta  melalui beberapa tahap penilaian mulai dari tahap seleksi abstrak, seleksi full paper, dan presentasi. Pada perlombaan ini, tahap presentasi dilakukan secara Offline.
+                </p>
+            </div>
+        </x-glass-card>
+    </div>
     {{-- Pendaftaran --}}
-<div x-data="{ step: {{ $step }} }" x-cloak class="mt-6">
+<div x-data="{ step: {{ $step }} }" x-cloak class="mt-6 animate-float-in delay-900">
     <x-glass-card title="" subtitle="">
     {{-- STEP 1 --}}
     <section x-show="step===1">
@@ -351,7 +352,7 @@
 </div>
 
   {{-- Timeline --}}
-    <div id="timeline" class="mt-6">
+    <div id="timeline" class="mt-6 animate-float-in delay-1100">
     <x-glass-card title="Timeline Kegiatan" subtitle="Pantau jadwal penting INCOME.">
         <ul class="relative ml-3">
         <span class="absolute left-[-1px] top-0 h-full w-px bg-gradient-to-b from-gray-300/70 via-gray-200/70 to-gray-300/70"></span>
@@ -396,83 +397,188 @@
     </x-glass-card>
     </div>
 
-    {{-- FAQ --}}
-    <div id="faq" class="mt-6">
-    <x-glass-card title="FAQ INCOME" subtitle="Pertanyaan yang sering diajukan">
-        <div class="space-y-3">
-        {{-- Q1 --}}
-        <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
-            <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
-            <h3 class="font-medium text-gray-900">
-                Q1: INCOME itu apa sih?
-            </h3>
-            <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
-            </svg>
-            </summary>
-            <div class="px-4 pb-4 text-sm text-gray-700">
-            <p>
-                INCOME merupakan sebuah kompetisi dalam bidang Karya Tulis Ilmiah yang ditujukan kepada siswa/siswi SMA/SMK sederajat untuk meningkatkan kreativitas dan inovasi dalam bidang Instrumentasi. INCOME membawakan tema
-                <span class="italic">“Youth Collaboration and Innovation to Achieve SDGs 2030”</span>
-                dan memiliki beberapa subtema. Perlombaan dilakukan dengan beranggotakan maksimal 2 orang dalam satu tim. Peserta melalui berbagai tahap penilaian mulai dari seleksi abstrak, seleksi full paper, dan presentasi. Pada perlombaan ini, tahap presentasi dilakukan secara <strong>offline</strong>.
-            </p>
-            </div>
-        </details>
+{{-- FAQ (revisi) --}}
+<div id="faq" class="mt-6 animate-float-in delay-1300">
+  <x-glass-card title="FAQ INCOME" subtitle="Pertanyaan yang sering diajukan">
+    <div class="space-y-3">
 
-        {{-- Q2 --}}
-        <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
-            <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
-            <h3 class="font-medium text-gray-900">
-                Q2: Berapa banyak anggota dalam satu tim?
-            </h3>
-            <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
-            </svg>
-            </summary>
-            <div class="px-4 pb-4 text-sm text-gray-700">
-            <p>Setiap tim hanya boleh beranggotakan <strong>maksimal dua orang</strong>.</p>
-            </div>
-        </details>
-
-        {{-- Q3 --}}
-        <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
-            <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
-            <h3 class="font-medium text-gray-900">
-                Q3: Apa saja tahapan pelaksanaan INCOME 2026?
-            </h3>
-            <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
-            </svg>
-            </summary>
-            <div class="px-4 pb-4 text-sm text-gray-700">
-            <ol class="list-decimal space-y-2 pl-5">
-                <li>
-                <strong>Tahap Pengumpulan Abstrak</strong> — Setelah mendaftar, peserta mengumpulkan abstrak terbaiknya.
-                <em>Pengumpulan abstrak tidak dipungut biaya.</em>
-                </li>
-                <li>
-                <strong>Tahap Seleksi Abstrak</strong> — Abstrak dinilai sesuai kriteria penjurian yang ditentukan.
-                </li>
-                <li>
-                <strong>Tahap Pengumuman Lolos Abstrak</strong> — Peserta yang lolos melanjutkan ke tahap berikutnya.
-                </li>
-                <li>
-                <strong>Workshop</strong> — Rangkaian kegiatan (online) untuk memperkuat pemahaman inovasi ilmiah.
-                </li>
-                <li>
-                <strong>Tahap Mentoring</strong> — Peserta mendapat pendampingan dari <em>trainer</em> keilmiahan ITS untuk mematangkan ide dan karya.
-                </li>
-                <li>
-                <strong>Tahap Pengumpulan Full Paper</strong> — Peserta yang lolos seleksi abstrak mengirimkan <em>full paper</em> dan melakukan pembayaran biaya pendaftaran sesuai waktu yang ditentukan.
-                </li>
-            </ol>
-            <div class="mt-3 text-xs text-gray-500">
-                Lihat jadwal lengkap di <a href="#timeline" class="font-medium underline hover:no-underline">Timeline</a> atau langsung
-                <a href="#daftar" class="font-medium underline hover:no-underline">Daftar</a>.
-            </div>
-            </div>
-        </details>
+      {{-- Q1 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q1: INCOME itu apa sih?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <p>
+            INCOME merupakan sebuah kompetisi dalam bidang Karya Tulis Ilmiah yang ditujukan kepada siswa/siswi SMA/SMK sederajat untuk meningkatkan kreativitas dan inovasi dalam bidang Instrumentasi. INCOME membawakan tema
+            <em>“Youth Collaboration and Innovation to Achieve SDGs 2030”</em> dan memiliki beberapa subtema. Perlombaan dilakukan dengan beranggotakan maksimal 2 orang dalam satu tim. Peserta melalui berbagai tahap penilaian mulai dari seleksi abstrak, seleksi full paper, dan presentasi. Pada perlombaan ini, tahap presentasi dilakukan secara <strong>offline</strong>.
+          </p>
         </div>
-    </x-glass-card>
+      </details>
+
+      {{-- Q2 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q2: Berapa banyak anggota dalam satu tim?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <p>Setiap tim hanya boleh beranggotakan <strong>maksimal dua orang</strong> (1 ketua dan 1 anggota).</p>
+        </div>
+      </details>
+
+      {{-- Q3 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q3: Apa saja tahapan pelaksanaan INCOME 2026?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <ol class="list-decimal space-y-2 pl-5">
+            <li><strong>Tahap Pengumpulan Abstrak</strong> — Setelah mendaftar, peserta mengumpulkan abstrak terbaiknya (gratis).</li>
+            <li><strong>Tahap Seleksi Abstrak</strong> — Abstrak dinilai sesuai kriteria penjurian.</li>
+            <li><strong>Tahap Pengumuman Lolos Abstrak</strong> — Peserta yang lolos melanjutkan ke tahap berikutnya.</li>
+            <li><strong>Workshop</strong> — Kegiatan online untuk memperkuat pemahaman inovasi ilmiah.</li>
+            <li><strong>Tahap Mentoring</strong> — Pendampingan oleh trainer keilmiahan ITS untuk mematangkan ide & karya.</li>
+            <li><strong>Tahap Pengumpulan Full Paper</strong> — Peserta yang lolos abstrak mengirim full paper dengan pembayaran biaya pendaftaran sesuai waktu yang ditentukan.</li>
+            <li><strong>Tahap Penjurian Full Paper</strong> — Penilaian full paper hingga tersisa <strong>10</strong> terbaik untuk maju ke babak final.</li>
+            <li><strong>Tahap Pengumuman Finalis</strong> — Pengumuman 10 finalis berdasarkan penilaian dewan juri.</li>
+            <li><strong>Tahap Technical Meeting</strong> — Pemberitahuan teknis jadwal presentasi finalis di Grand Final.</li>
+            <li><strong>Tahap Pengumpulan Poster</strong> — Sebelum Grand Final, peserta wajib mengumpulkan poster.</li>
+            <li><strong>Tahap Vote Poster</strong> — Voting poster dilakukan online melalui Instagram INFEST <strong>2026</strong> dan secara offline pada puncak acara.</li>
+            <li><strong>Pengumpulan PPT Final</strong> — Sebelum Grand Final, peserta wajib mengumpulkan PPT Final.</li>
+            <li><strong>Tahap Grand Final</strong> — Presentasi karya di depan juri; penentuan juara berdasarkan pertimbangan dewan juri.</li>
+          </ol>
+          <div class="mt-3 text-xs text-gray-500">
+            Lihat jadwal di <a href="#timeline" class="font-medium underline hover:no-underline">Timeline</a> atau langsung <a href="#daftar" class="font-medium underline hover:no-underline">Daftar</a>.
+          </div>
+        </div>
+      </details>
+
+      {{-- Q4 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q4: Apa tema utama INCOME 2026?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <p>
+            Tema: <em>“Youth Collaboration and Innovation to Achieve SDGs 2030”</em>, dengan subtema:
+            Renewable energy, Kesehatan, Sistem Otomasi, Pertanian, dan Lingkungan.
+          </p>
+        </div>
+      </details>
+
+      {{-- Q5 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q5: Tujuan kegiatan INCOME 2026 apa saja?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <p>Mengembangkan karya tulis ilmiah pelajar SMA/SMK sederajat dengan gagasan kreatif dan orisinil, serta mencari generasi muda yang mampu mengimplementasikan ide instrumentasi untuk pemberdayaan masa depan dalam bentuk alat.</p>
+        </div>
+      </details>
+
+      {{-- Q6 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q6: Bagaimana proses seleksi abstrak?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <p>Abstrak dinilai sesuai kriteria yang ditentukan; peserta yang memenuhi kriteria akan maju ke tahap pengumpulan full paper.</p>
+        </div>
+      </details>
+
+      {{-- Q7 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q7: Bagaimana proses seleksi full paper?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <p>Full paper dinilai sesuai kriteria yang ditentukan hingga tersisa <strong>sepuluh</strong> karya terbaik yang maju ke babak final.</p>
+        </div>
+      </details>
+
+      {{-- Q8 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q8: Bagaimana proses voting poster?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <p>Voting poster dilakukan <strong>online</strong> melalui Instagram INFEST 2026 dan <strong>offline</strong> pada hari H puncak acara INFEST 2026.</p>
+        </div>
+      </details>
+
+      {{-- Q9 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q9: Apakah INCOME INFEST ini berbayar?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <p>Ya, <strong>berbayar</strong> tetapi hanya jika <strong>lolos seleksi abstrak</strong>.</p>
+        </div>
+      </details>
+
+      {{-- Q10 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q10: Bagaimana menghubungi panitia?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <p>Hubungi Contact Person berikut:</p>
+          <ul class="mt-1 list-disc pl-5">
+            <li>Novia — <a class="underline" href="tel:+6287879854365">0878-7985-4365</a></li>
+            <li>Nada  — <a class="underline" href="tel:+6285733388372">0857-3338-8372</a></li>
+          </ul>
+        </div>
+      </details>
+
+      {{-- Q11 --}}
+      <details class="group rounded-xl border border-white/30 bg-white/60 backdrop-blur">
+        <summary class="flex cursor-pointer items-start justify-between gap-3 px-4 py-3">
+          <h3 class="font-medium text-gray-900">Q11: Di mana mendapatkan info INCOME INFEST 2026?</h3>
+          <svg class="mt-1 h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-gray-700">
+          <ul class="space-y-1">
+            <li>Instagram: <a class="underline" href="https://instagram.com/infest.its" target="_blank" rel="noopener">@infest.its</a></li>
+            <li>TikTok: <span class="font-medium">infest.its</span></li>
+            <li>LinkedIn: <span class="font-medium">Instrumentation Festival</span></li>
+            <li>YouTube: <span class="font-medium">Instrumentation Festival</span></li>
+          </ul>
+        </div>
+      </details>
+
     </div>
+  </x-glass-card>
+</div>
+
 @endsection

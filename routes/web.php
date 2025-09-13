@@ -18,11 +18,13 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('events')->name('events.')->group(function(){
         Route::view('/inshow', 'events.inshow')->name('inshow');
+
         Route::get('/income', [IncomeController::class, 'show'])->name('income');
         Route::post('/income/register', [IncomeController::class, 'register'])->name('income.register');
         Route::post('/income/abstract', [IncomeController::class, 'submitAbstract'])->name('income.abstract');
+
         Route::view('/invisday', 'events.invisday')->name('invisday');
-        Route::view('/instry', 'events.instry')->name('instry');
+        Route::view('/instry',   'events.instry')->name('instry');
     });
 });
 

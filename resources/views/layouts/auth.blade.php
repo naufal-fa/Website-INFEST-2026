@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{{ config('app.name', 'Laravel') }}</title>
+  <title>@yield('title', config('app.name', 'Laravel'))</title>
   <link rel="icon" href="{{ asset('images/logo.png') }}?v=1">
 
   {{-- Tailwind via CDN (no build) --}}
@@ -24,6 +24,7 @@
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-cyan-50 via-white to-white">
+
   <div class="relative min-h-screen">
     {{-- Background accent bubbles --}}
     <div class="pointer-events-none absolute inset-0 overflow-hidden">
@@ -72,4 +73,10 @@
     </div>
   </div>
 </body>
+
+<script>
+  document.getElementById('login-submit').addEventListener('click', function()) {
+    sessionStorage.setItem('showIntroAfterLogin', 'true');
+  };
+</script>
 </html>

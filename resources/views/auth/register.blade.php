@@ -1,5 +1,7 @@
 @extends('layouts.auth')
 
+@section('title', 'Register')
+
 @section('content')
   <div class="mb-6 text-center">
     <h1 class="text-2xl font-semibold text-gray-800">Create your account</h1>
