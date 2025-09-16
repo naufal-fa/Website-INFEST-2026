@@ -101,7 +101,7 @@
   <div id="drawerPanel" class="fixed inset-y-0 left-0 z-50 w-72 -translate-x-full transition-transform md:hidden">
     <div class="h-full border-r border-cyan-100 bg-white/80 backdrop-blur p-3">
       <div class="flex items-center justify-between mb-2">
-        <span class="text-sm font-semibold text-cyan-700">{{ config('app.name','Laravel') }}</span>
+        <span class="text-sm font-semibold text-cyan-700">INFEST 2026</span>
         <button id="closeSidebar" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-100 bg-white hover:bg-cyan-50">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/>
@@ -424,5 +424,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 </script>
+
+{{-- Start Sidebar --}}
+<style>
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('button[data-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-toggle');
+      const panel = document.getElementById(id);
+      if (!panel) return;
+
+      // toggle visibility
+      panel.classList.toggle('hidden');
+
+      // update aria-expanded
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', (!expanded).toString());
+
+      // rotate chevron (optional)
+      const chev = btn.querySelector('[data-chevron]');
+      if (chev) chev.classList.toggle('rotate-180');
+    });
+  });
+});
+</script>
+{{-- End of Sidebar --}}
+
 </body>
 </html>

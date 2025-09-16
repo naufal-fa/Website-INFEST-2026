@@ -3,7 +3,7 @@
 @section('title', 'INSHOW — Coming Soon')
 
 @section('content')
-  {{-- Breadcrumb + Header --}}
+  {{-- Breadcrumb + Header --}} 
   <div class="mb-6 flex items-center justify-between gap-3">
     <div>
       <nav class="text-xs text-gray-500">

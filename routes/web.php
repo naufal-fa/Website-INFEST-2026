@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\InsvidayController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,7 +24,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/income/register', [IncomeController::class, 'register'])->name('income.register');
         Route::post('/income/abstract', [IncomeController::class, 'submitAbstract'])->name('income.abstract');
 
-        Route::view('/invisday', 'events.invisday')->name('invisday');
+        Route::get('/insviday', [InsvidayController::class, 'show'])->name('insviday');
+        Route::post('/insviday/register', [InsvidayController::class, 'register'])->name('insviday.register');
+        Route::post('/insviday/upload',   [InsvidayController::class, 'upload'])->name('insviday.upload');
+
         Route::view('/instry',   'events.instry')->name('instry');
     });
 });

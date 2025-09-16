@@ -13,7 +13,7 @@
       'children' => [
         ['label' => 'INSHOW',   'href' => url('/events/inshow'),   'active'=> request()->is('events/inshow')],
         ['label' => 'INCOME',   'href' => url('/events/income'),   'active'=> request()->is('events/income')],
-        ['label' => 'INVISDAY', 'href' => url('/events/invisday'), 'active'=> request()->is('events/invisday')],
+        ['label' => 'INSVIDAY', 'href' => url('/events/insviday'), 'active'=> request()->is('events/insviday')],
         ['label' => 'INSTRY',   'href' => url('/events/instry'),   'active'=> request()->is('events/instry')],
       ],
     ],
@@ -33,36 +33,35 @@
               $groupId = \Illuminate\Support\Str::slug($item['label']).'-submenu';
             @endphp
             <li class="mb-1">
-              <button type="button"
-                class="w-full flex items-center justify-between rounded-xl px-3 py-2 text-sm
-                       {{ $anyActive ? 'bg-cyan-50 text-cyan-700 ring-1 ring-cyan-200' : 'text-gray-700 hover:bg-gray-50' }}"
-                data-toggle="{{ $groupId }}"
-                aria-expanded="{{ $anyActive ? 'true' : 'false' }}"
-                aria-controls="{{ $groupId }}">
-                <span class="inline-flex items-center gap-2">
-                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] ?? '' }}" />
+              <details class="group" {{ $anyActive ? 'open' : '' }}>
+                <summary
+                  class="flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm
+                        {{ $anyActive ? 'bg-cyan-50 text-cyan-700 ring-1 ring-cyan-200' : 'text-gray-700 hover:bg-gray-50' }}">
+                  <span class="inline-flex items-center gap-2">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] ?? '' }}" />
+                    </svg>
+                    <span class="font-medium">{{ $item['label'] }}</span>
+                  </span>
+                  <svg class="h-4 w-4 text-gray-600 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
                   </svg>
-                  <span class="font-medium">{{ $item['label'] }}</span>
-                </span>
-                <svg class="h-4 w-4 transition-transform {{ $anyActive ? 'rotate-180' : '' }}" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
-                </svg>
-              </button>
+                </summary>
 
-              <ul id="{{ $groupId }}" class="mt-1 pl-2 space-y-1 {{ $anyActive ? '' : 'hidden' }}">
-                @foreach ($item['children'] as $child)
-                  <li>
-                    <a href="{{ $child['href'] }}"
-                       class="block rounded-lg px-3 py-2 text-sm
-                              {{ ($child['active'] ?? false)
-                                  ? 'bg-cyan-100 text-cyan-800 ring-1 ring-cyan-200'
-                                  : 'text-gray-600 hover:bg-gray-50' }}">
-                      {{ $child['label'] }}
-                    </a>
-                  </li>
-                @endforeach
-              </ul>
+                <ul class="mt-1 space-y-1 pl-2">
+                  @foreach ($item['children'] as $child)
+                    <li>
+                      <a href="{{ $child['href'] }}"
+                        class="block rounded-lg px-3 py-2 text-sm
+                                {{ ($child['active'] ?? false)
+                                    ? 'bg-cyan-100 text-cyan-800 ring-1 ring-cyan-200'
+                                    : 'text-gray-600 hover:bg-gray-50' }}">
+                        {{ $child['label'] }}
+                      </a>
+                    </li>
+                  @endforeach
+                </ul>
+              </details>
             </li>
           @else
             {{-- Item biasa --}}

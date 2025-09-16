@@ -24,7 +24,9 @@
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-cyan-50 via-white to-white">
-
+  {{-- Intro Animation --}}
+  <x-intro-animation />
+  
   <div class="relative min-h-screen">
     {{-- Background accent bubbles --}}
     <div class="pointer-events-none absolute inset-0 overflow-hidden">
