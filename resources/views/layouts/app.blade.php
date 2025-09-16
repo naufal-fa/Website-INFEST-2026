@@ -101,7 +101,19 @@
   <div id="drawerPanel" class="fixed inset-y-0 left-0 z-50 w-72 -translate-x-full transition-transform md:hidden">
     <div class="h-full border-r border-cyan-100 bg-white/80 backdrop-blur p-3">
       <div class="flex items-center justify-between mb-2">
-        <span class="text-sm font-semibold text-cyan-700">INFEST 2026</span>
+        <a href="{{ url('/') }}" class="flex items-center gap-2">
+          <div class="relative h-9 w-9 overflow-hidden rounded-xl bg-white">
+            <img
+              src="{{ asset('images/logo.png') }}"
+              srcset="{{ asset('images/logo.png') }} 1x, {{ asset('images/logo.png') }} 2x"
+              alt="{{ config('app.name', 'App') }} logo"
+              class="absolute inset-0 h-full w-full object-contain"
+              loading="lazy"
+              draggable="false"
+            >
+          </div>
+          <span class="text-lg font-semibold text-cyan-700">INFEST 2026</span>
+        </a>
         <button id="closeSidebar" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-100 bg-white hover:bg-cyan-50">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/>
