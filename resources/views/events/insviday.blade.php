@@ -136,8 +136,8 @@
                   <option value="">-- Pilih Tanggal --</option>
 
                   <optgroup label="Batch 1">
-                    <option value="2025-10-25" @selected(old('visit_date')==='2025-10-25')>25 Oktober 2025</option>
-                    <option value="2025-10-26" @selected(old('visit_date')==='2025-10-26')>26 Oktober 2025</option>
+                    <option value="2025-11-08" @selected(old('visit_date')==='2025-11-08')>8 Novemer 2025</option>
+                    <option value="2025-11-09" @selected(old('visit_date')==='2025-11-09')>9 November 2025</option>
                   </optgroup>
 
                   <optgroup label="Batch 2 (Ditutup)" disabled>
@@ -145,10 +145,10 @@
                     <option disabled>30 November 2025</option>
                   </optgroup>
 
-                  <optgroup label="Batch 3 (Ditutup)" disabled>
+                  {{-- <optgroup label="Batch 3 (Ditutup)" disabled>
                     <option disabled>20 Desember 2025</option>
                     <option disabled>21 Desember 2025</option>
-                  </optgroup>
+                  </optgroup> --}}
                 </select>
                 @error('visit_date') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
                 <p class="mt-1 text-xs text-gray-500">Batch 2 & 3 akan dibuka menyusul.</p>
@@ -161,11 +161,12 @@
                   <select name="payment_method" required
                           class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
                     <option value="">Pilih metode</option>
-                    @foreach (['ShopeePay','BRI','BCA','QRIS'] as $m)
+                    @foreach (['BNI 1791801423 a/n : Riska Hidayati Laena','BCA 6730498495 RAFI MUHAMMAD ZHAFIR'] as $m)
                       <option value="{{ $m }}" @selected(old('payment_method')===$m)>{{ $m }}</option>
                     @endforeach
                   </select>
                   @error('payment_method') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                  <p class="mt-1 text-xs text-gray-500">Tambahkan 1 rupiah, misal: 30.001</p>
                 </div>
 
                 <div>
@@ -173,7 +174,6 @@
                   <input type="file" name="payment_proof" accept=".jpg,.jpeg,.png" required
                         class="block w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5 file:mr-3 file:rounded-lg file:border-0 file:bg-gray-900 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-white hover:file:bg-black">
                   @error('payment_proof') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-                  <p class="mt-1 text-xs text-gray-500">Tersimpan di folder khusus: <span class="font-mono">storage/insviday/payments</span></p>
                 </div>
               </div>
 
@@ -217,7 +217,7 @@
                   {{ optional($reg->visit_date)->timezone('Asia/Jakarta')->translatedFormat('d F Y') }}
                 </p>
                 <p class="mt-1"><strong>Bukti Bayar:</strong>
-                  <a class="underline" target="_blank" href="{{ asset(str_replace('public/','storage/',$reg->payment_proof_path)) }}">Lihat gambar</a>
+                  <a class="underline" target="_blank" href="{{ asset('storage/app/private/' . $reg->payment_proof_path) }}">Lihat gambar</a>
                 </p>
                 <p class="mt-1"><strong>Link Drive:</strong> <a class="underline" href="{{ $reg->gdrive_link }}" target="_blank">{{ $reg->gdrive_link }}</a></p>
                 <p class="mt-2 text-xs text-gray-500">Status: <span class="font-medium">{{ strtoupper($reg->status) }}</span></p>
@@ -239,8 +239,8 @@
             <div class="mt-4 text-sm text-gray-700">
               <p>Contact Person:</p>
               <ul class="mt-1 list-disc pl-5">
-                <li>Novia — 0878-7985-4365</li>
-                <li>Nada — 0857-3338-8372</li>
+                <li>Selly — 0852-5791-7551</li>
+                <li>Rizky — 0831-1776-2023</li>
               </ul>
             </div>
           </section>

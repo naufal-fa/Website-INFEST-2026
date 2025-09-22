@@ -16,8 +16,8 @@ class InsvidayController extends Controller
         // Daftar tanggal (sekaligus penanda dibuka/ditutup)
         $dates = [
             // BATCH 1 (dibuka)
-            ['date' => '2025-10-25', 'label' => '25 Oktober 2025', 'open' => true],
-            ['date' => '2025-10-26', 'label' => '26 Oktober 2025', 'open' => true],
+            ['date' => '2025-11-08', 'label' => '8 November 2025', 'open' => true],
+            ['date' => '2025-11-09', 'label' => '9 November 2025', 'open' => true],
             // BATCH 2 (ditutup)
             ['date' => '2025-11-29', 'label' => '29 November 2025', 'open' => false],
             ['date' => '2025-11-30', 'label' => '30 November 2025', 'open' => false],
@@ -54,8 +54,8 @@ public function apply(Request $request)
 
     // Daftar tanggal yang diizinkan + mana yang terbuka
     $allowed = [
-        '2025-10-25' => true,  // open
-        '2025-10-26' => true,  // open
+        '2025-11-08' => true,  // open
+        '2025-11-09' => true,  // open
         '2025-11-29' => false, // closed
         '2025-11-30' => false, // closed
         '2025-12-20' => false, // closed
