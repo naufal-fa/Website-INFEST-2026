@@ -18,6 +18,19 @@
       ],
     ],
   ];
+
+  if (auth()->check() && auth()->user()->hasRole('admin')) {
+    $menus[] = [
+      'label' => 'Admin',
+      'icon'  => 'M4 6h16M4 12h16M4 18h16', // ikon "menu" sederhana
+      'children' => [
+        // ['label' => 'Rekap INSVIDAY', 'href' => route('admin.insviday.index'), 'active'=> request()->routeIs('admin.insviday.*')],
+        // ['label' => 'Rekap INCOME',   'href' => route('admin.income.index'),   'active'=> request()->routeIs('admin.income.*')],
+        // ['label' => 'Rekap INSHOW',   'href' => route('admin.inshow.index'),   'active'=> request()->routeIs('admin.inshow.*')],
+        // ['label' => 'Rekap INSTRY',   'href' => route('admin.instry.index'),   'active'=> request()->routeIs('admin.instry.*')],
+      ],
+    ];
+  }
 @endphp
 
 <aside class="w-64 shrink-0">
@@ -30,7 +43,6 @@
             {{-- Item dengan submenu --}}
             @php
               $anyActive = collect($item['children'])->contains(fn($c) => $c['active'] ?? false);
-              $groupId = \Illuminate\Support\Str::slug($item['label']).'-submenu';
             @endphp
             <li class="mb-1">
               <details class="group" {{ $anyActive ? 'open' : '' }}>

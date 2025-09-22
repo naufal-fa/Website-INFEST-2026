@@ -12,7 +12,9 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
 
-    public const ROLE_ADMIN   = 'admin';
+    protected $guard_name = 'web';
+
+    public const ROLE_ADMIN   = 'admin';    
     public const ROLE_PESERTA = 'peserta';
 
     /**
@@ -21,7 +23,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name','email','password','role',
+        'name','email','password',
     ];
 
     /**
