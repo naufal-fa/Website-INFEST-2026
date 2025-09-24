@@ -54,12 +54,12 @@ public function apply(Request $request)
 
     // Daftar tanggal yang diizinkan + mana yang terbuka
     $allowed = [
-        '2025-11-08' => true,  // open
-        '2025-11-09' => true,  // open
-        '2025-11-29' => false, // closed
-        '2025-11-30' => false, // closed
-        '2025-12-20' => false, // closed
-        '2025-12-21' => false, // closed
+        '2025-11-08' => true,
+        '2025-11-09' => true,
+        '2025-11-29' => false,
+        '2025-11-30' => false,
+        '2025-12-20' => false,
+        '2025-12-21' => false,
     ];
 
     $data = $request->validate([

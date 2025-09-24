@@ -24,9 +24,12 @@
         <x-glass-card title="Tentang Event" subtitle="Tujuan & target peserta">
         <div x-data="carousel({
                 images: [
-                { src: '{{ asset('images/income/DSC02267.JPG') }}', alt: 'Dokumentasi INCOME 1' },
-                { src: '{{ asset('images/income/DSC02307.JPG') }}', alt: 'Dokumentasi INCOME 2' },
-                { src: '{{ asset('images/income/DSC02315.JPG') }}', alt: 'Dokumentasi INCOME 3' },
+                { src: '{{ asset('images/insviday/DSC_3955.JPG') }}', alt: 'Dokumentasi INSVIDAY 1' },
+                { src: '{{ asset('images/insviday/DSC_4204.JPG') }}', alt: 'Dokumentasi INSVIDAY 2' },
+                { src: '{{ asset('images/insviday/IMG_1127.JPG') }}', alt: 'Dokumentasi INSVIDAY 3' },
+                { src: '{{ asset('images/insviday/IMG_1178.JPG') }}', alt: 'Dokumentasi INSVIDAY 4' },
+                { src: '{{ asset('images/insviday/IMG_2041.JPG') }}', alt: 'Dokumentasi INSVIDAY 5' },
+                { src: '{{ asset('images/insviday/IMG_6253.JPG') }}', alt: 'Dokumentasi INSVIDAY 6' },
                 ],
                 interval: 5000 // auto-slide 5 detik; set 0 untuk non-otomatis
             })"
@@ -89,7 +92,7 @@
             </div>
             <div class="prose prose-sm max-w-none text-gray-700">
                 <p>
-                  “Instrumentation Visit Day” merupakan serangkaian acara dari INSHOW, sekaligus acara pembuka dari INFEST 2026. Kegiatan ini dirancang khusus untuk memperkenalkan Departemen Teknik Instrumentasi, Institut Teknologi Sepuluh Nopember. Acara ini memberikan kesempatan besar kepada siswa dan siswi  SMA/SMK se-derajat seluruh Indonesia untuk mendapatkan pengetahuan tentang keilmuan Instrumentasi, prospek kerja, dan kesempatan untuk belajar di laboratorium Teknik Instrumentasi ITS serta pengalaman seru menjelajahi kampus ITS.
+                    “Instrumentation Visit Day” atau dikenal sebagai INSVIDAY merupakan serangkaian acara yang terdiri dari sesi sehari menjadi mahasiswa Teknik Instrumentasi ITS dengan merasakan diajar oleh Dosen, melaksanakan praktikum di laboratorium, serta berkeliling di Kampus ITS. Kegiatan ini dirancang khusus untuk memperkenalkan Departemen Teknik Instrumentasi, Institut Teknologi Sepuluh Nopember. Acara ini memberikan kesempatan besar kepada siswa dan siswi  SMA/SMK se-derajat seluruh Indonesia untuk mendapatkan pengetahuan tentang keilmuan Instrumentasi, prospek kerja, dan kesempatan untuk belajar di laboratorium Teknik Instrumentasi ITS serta pengalaman seru menjelajahi kampus ITS.
                 </p>
             </div>
         </x-glass-card>
@@ -263,7 +266,7 @@
           </summary>
           <div class="px-4 pb-4 text-sm text-gray-700">
             <p>
-              INSVIDAY adalah “Instrumentation Visit Day” merupakan serangkaian acara dari INSHOW, sekaligus acara pembuka dari INFEST 2026. Kegiatan ini dirancang khusus untuk memperkenalkan Departemen Teknik Instrumentasi, Institut Teknologi Sepuluh Nopember.
+              INSVIDAY adalah “Instrumentation Visit Day” merupakan serangkaian acara yang terdiri dari sesi sehari menjadi mahasiswa Teknik Instrumentasi dengan merasakan diajar oleh Dosen, praktikum di laboratorium, serta berkeliling di ITS. INSVIDAY sekaligus sebagai acara pembuka dari INFEST 2026. Kegiatan ini dirancang khusus untuk memperkenalkan Departemen Teknik Instrumentasi, Institut Teknologi Sepuluh Nopember.
             </p>
           </div>
         </details>
@@ -290,7 +293,10 @@
             </svg>
           </summary>
           <div class="px-4 pb-4 text-sm text-gray-700">
-            <p>Kegiatan ini akan berlangsung selama 3 batch sesuai yang telah ditentukan, yaitu Batch 1 tanggal 22 - 23 November 2025, Batch 2 tanggal 13 - 14 Desember 2025, Batch 3 tanggal 13 - 14 Januari 2025 di Departemen Teknik Instrumentasi ITS Kampus ITS Sukolilo, Surabaya.</p>
+            <p>
+              Kegiatan ini akan berlangsung selama 1 hari sesuai jadwal yang telah dipilih dan dilaksanakan di Departemen Teknik Instrumentasi ITS Kampus ITS Sukolilo, Surabaya. 
+              <a href="https://maps.app.goo.gl/PiXQUhXj9dDqe4Bu7" target="_blank" rel="noopener noreferrer">https://maps.app.goo.gl/PiXQUhXj9dDqe4Bu7</a>
+            </p>
           </div>
         </details>
 
