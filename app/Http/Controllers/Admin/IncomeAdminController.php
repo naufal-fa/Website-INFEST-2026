@@ -49,9 +49,12 @@ class IncomeAdminController extends Controller
         $status = $request->get('status');
         $theme  = $request->get('subtheme');
         $hasSub = $request->get('has_submission');
-
-        $query = IncomeRegistration::query()
-            ->with(['submission'])
+    
+        $fileName  = 'income_registrations_'.now()->format('Ymd_His').'.csv';
+        $delimiter = ';';
+    
+        $query = \App\Models\IncomeTeam::query()
+            ->with('submission')
             ->when($q !== '', function ($qq) use ($q) {
                 $qq->where(function ($w) use ($q) {
                     $w->where('team_name', 'like', "%{$q}%")
@@ -65,40 +68,91 @@ class IncomeAdminController extends Controller
             ->when($hasSub === 'yes', fn($qq) => $qq->whereHas('submission'))
             ->when($hasSub === 'no',  fn($qq) => $qq->doesntHave('submission'))
             ->orderBy('created_at','asc');
-
-        $fileName = 'income_registrations_'.now()->format('Ymd_His').'.csv';
-
-        return response()->streamDownload(function () use ($query) {
+    
+        return response()->streamDownload(function () use ($query, $delimiter) {
             $out = fopen('php://output', 'w');
-            fputcsv($out, [
-                'ID','Team','Leader','Email','WA','Sekolah','Status Tim',
-                'Subtema','Judul Karya','Abstrak URL','Komitmen URL','Submitted At',
-                'Requirements Link','Created At'
-            ]);
-
-            $query->chunk(500, function ($rows) use ($out) {
+    
+            // BOM UTF-8
+            echo "\xEF\xBB\xBF";
+    
+            // Header kolom
+            $headers = [
+                'No',
+                'Nama Tim',
+                'Ketua Tim',
+                'Email Ketua',
+                'WA Ketua',
+                'Sekolah',
+                'Subtema',
+                'Judul Karya',
+                'URL Abstrak',
+                'URL Surat Komitmen',
+                'Waktu Submit Abstrak',
+                'Link Persyaratan',
+                'Tanggal Daftar',
+            ];
+            fputs($out, implode($delimiter, $headers)."\r\n");
+    
+            $rowNo = 0;
+    
+            $sanitize = function ($v) {
+                $v = is_string($v) ? trim(preg_replace("/\s+/u", ' ', $v)) : $v;
+                return $v;
+            };
+            $asText = function ($v) {
+                if ($v === null || $v === '') return '';
+                return '="'.str_replace('"', '""', $v).'"';
+            };
+            $urlPublic = function (?string $storagePath) {
+                return $storagePath
+                    ? url(str_replace('public/', 'storage/app/private/public/', $storagePath))
+                    : '';
+            };
+            $dmy = function ($date) {
+                return $date ? \Illuminate\Support\Carbon::parse($date)->format('d/m/Y') : '';
+            };
+            $dmyhis = function ($dateTime) {
+                return $dateTime ? \Illuminate\Support\Carbon::parse($dateTime)->format('d/m/Y H:i') : '';
+            };
+    
+            $query->chunk(500, function ($rows) use (&$rowNo, $out, $delimiter, $sanitize, $asText, $urlPublic, $dmy, $dmyhis) {
                 foreach ($rows as $r) {
+                    $rowNo++;
                     $s = $r->submission;
-                    fputcsv($out, [
-                        $r->id,
-                        $r->team_name,
-                        $r->leader_name,
-                        $r->leader_email,
-                        $r->leader_whatsapp,
-                        $r->school,
-                        strtoupper($r->status ?? 'N/A'),
-                        $s->subtheme ?? '',
-                        $s->title ?? '',
-                        $s?->abstract_path ? url(str_replace('public/','storage/',$s->abstract_path)) : '',
-                        $s?->commitment_path ? url(str_replace('public/','storage/',$s->commitment_path)) : '',
-                        $s?->submitted_at?->format('Y-m-d H:i:s'),
-                        $r->requirements_link,
-                        $r->created_at?->format('Y-m-d H:i:s'),
-                    ]);
+    
+                    $fields = [
+                        $rowNo,
+                        $sanitize($r->team_name),
+                        $sanitize($r->leader_name),
+                        $sanitize($r->leader_email),
+                        $asText($r->leader_whatsapp),
+                        $sanitize($r->school),
+                        $sanitize($s->subtheme ?? ''),
+                        $sanitize($s->title ?? ''),
+                        $urlPublic($s->abstract_path ?? null),
+                        $urlPublic($s->commitment_path ?? null),
+                        $dmyhis($s->submitted_at ?? null),
+                        $sanitize($r->requirements_link),
+                        $dmyhis($r->created_at),
+                    ];
+    
+                    $line = collect($fields)->map(function ($v) use ($delimiter) {
+                        $s = (string) $v;
+                        if (str_contains($s, $delimiter) || str_contains($s, '"')) {
+                            $s = '"'.str_replace('"', '""', $s).'"';
+                        }
+                        return $s;
+                    })->implode($delimiter);
+    
+                    fputs($out, $line."\r\n");
                 }
             });
-
+    
             fclose($out);
-        }, $fileName, ['Content-Type' => 'text/csv; charset=UTF-8']);
+        }, $fileName, [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="'.$fileName.'"',
+            'Cache-Control'       => 'no-store, no-cache, must-revalidate, max-age=0',
+        ]);
     }
 }

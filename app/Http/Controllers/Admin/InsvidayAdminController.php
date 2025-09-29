@@ -104,49 +104,96 @@ class InsvidayAdminController extends Controller
     // GET /admin/insviday/registrations/export
     public function export(Request $request): StreamedResponse
     {
+        $qStatus = $request->get('status');
+        $qVisit  = $request->get('visit_date');
+    
         $fileName = 'insviday_registrations_'.now()->format('Ymd_His').'.csv';
-
-        $query = InsvidayRegistration::query();
-
-        if ($status = $request->get('status')) {
-            $query->where('status', $status);
-        }
-        if ($visit = $request->get('visit_date')) {
-            $query->whereDate('visit_date', $visit);
-        }
-
-        $query->orderBy('created_at', 'asc');
-
-        return response()->streamDownload(function () use ($query) {
+        $delimiter = ';'; // Excel-ID friendly
+    
+        $query = \App\Models\InsvidayRegistration::query()
+            ->when($qStatus, fn($qq) => $qq->where('status', $qStatus))
+            ->when($qVisit,  fn($qq) => $qq->whereDate('visit_date', $qVisit))
+            ->orderBy('created_at', 'asc');
+    
+        return response()->streamDownload(function () use ($query, $delimiter) {
             $out = fopen('php://output', 'w');
-            // Header CSV
-            fputcsv($out, [
-                'ID','Nama','WA','Sekolah','Tanggal Kunjungan','Metode Bayar',
-                'Status','Approved At','Approved By','GDrive','Bukti Pembayaran URL','Dibuat'
-            ]);
-
-            $query->chunk(500, function ($rows) use ($out) {
+    
+            // Tulis BOM agar Excel deteksi UTF-8
+            echo "\xEF\xBB\xBF";
+    
+            // Header kolom (urut rapi)
+            $headers = [
+                'No',
+                'Nama Lengkap',
+                'WhatsApp',
+                'Sekolah',
+                'Tanggal Kunjungan',
+                'Metode Bayar',
+                'Link GDrive',
+                'URL Bukti Bayar',
+                'Dibuat Pada',
+            ];
+            fputs($out, implode($delimiter, $headers)."\r\n");
+    
+            $rowNo = 0;
+    
+            $sanitize = function ($v) {
+                // Hilangkan newline & sematkan trim
+                $v = is_string($v) ? trim(preg_replace("/\s+/u", ' ', $v)) : $v;
+                return $v;
+            };
+            $asText = function ($v) {
+                // Agar “62xxxx” tidak jadi 6.2E+… di Excel
+                if ($v === null || $v === '') return '';
+                return '="'.str_replace('"', '""', $v).'"';
+            };
+            $urlPublic = function (?string $storagePath) {
+                return $storagePath
+                    ? url(str_replace('public/', 'storage/app/private/public/', $storagePath))
+                    : '';
+            };
+            $dmy = function ($date) {
+                return $date ? \Illuminate\Support\Carbon::parse($date)->format('d/m/Y') : '';
+            };
+            $dmyhis = function ($dateTime) {
+                return $dateTime ? \Illuminate\Support\Carbon::parse($dateTime)->format('d/m/Y H:i') : '';
+            };
+    
+            $query->chunk(500, function ($rows) use (&$rowNo, $out, $delimiter, $sanitize, $asText, $urlPublic, $dmy, $dmyhis) {
                 foreach ($rows as $r) {
-                    fputcsv($out, [
-                        $r->id,
-                        $r->full_name,
-                        $r->whatsapp,
-                        $r->school,
-                        optional($r->visit_date)->format('Y-m-d'),
-                        $r->payment_method,
-                        strtoupper($r->status),
-                        optional($r->approved_at)->format('Y-m-d H:i:s'),
-                        optional($r->approver)->name,
-                        $r->gdrive_link,
-                        $r->payment_proof_path ? url(str_replace('public/','storage/',$r->payment_proof_path)) : '',
-                        $r->created_at?->format('Y-m-d H:i:s'),
-                    ]);
+                    $rowNo++;
+    
+                    $fields = [
+                        $rowNo,
+                        $sanitize($r->full_name),
+                        $asText($r->whatsapp), // Excel-safe
+                        $sanitize($r->school),
+                        $dmy($r->visit_date),
+                        $sanitize($r->payment_method),
+                        $sanitize($r->gdrive_link),
+                        $urlPublic($r->payment_proof_path),
+                        $dmyhis($r->created_at),
+                    ];
+    
+                    // Tulis manual pakai delimiter agar seragam (bukan fputcsv default)
+                    $line = collect($fields)->map(function ($v) use ($delimiter) {
+                        // Escape delimiter & kutip ganda
+                        $s = (string) $v;
+                        if (str_contains($s, $delimiter) || str_contains($s, '"')) {
+                            $s = '"'.str_replace('"', '""', $s).'"';
+                        }
+                        return $s;
+                    })->implode($delimiter);
+    
+                    fputs($out, $line."\r\n");
                 }
             });
-
+    
             fclose($out);
         }, $fileName, [
-            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="'.$fileName.'"',
+            'Cache-Control'       => 'no-store, no-cache, must-revalidate, max-age=0',
         ]);
     }
 }
