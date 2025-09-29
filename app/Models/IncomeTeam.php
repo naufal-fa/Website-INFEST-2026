@@ -17,6 +17,6 @@ class IncomeTeam extends Model
 
     public function submission()
     {
-        return $this->hasOne(IncomeAbstract::class, 'team_id');
+        return $this->hasOne(IncomeAbstract::class, 'team_id', 'id');
     }
 }

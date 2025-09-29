@@ -52,5 +52,4 @@ class User extends Authenticatable
     // Helpers
     public function isAdmin(): bool   { return $this->role === self::ROLE_ADMIN; }
     public function isPeserta(): bool { return $this->role === self::ROLE_PESERTA; }
-    public function hasRole(string ...$roles): bool { return in_array($this->role, $roles, true); }
 }

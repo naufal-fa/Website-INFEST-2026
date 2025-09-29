@@ -6,16 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 class InsvidayRegistration extends Model
 {
     protected $fillable = [
-        'user_id','full_name','whatsapp','school',
-        'payment_method','payment_proof_path','gdrive_link',
-        'status','approved_at','approved_by','visit_date'
-    ];
-    protected $casts = [
-        'visit_date'  => 'date',
-        'approved_at' => 'datetime',
+        'team_name','leader_name','leader_email','leader_whatsapp','member_name','school',
+        'requirements_link','status','user_id',
     ];
 
-    public function approver() { return $this->belongsTo(\App\Models\User::class, 'approved_by'); }
-
-    public function getWaLinkAttribute(): string { return 'https://wa.me/'.$this->whatsapp; }
+    public function submission()
+    {
+        return $this->hasOne(IncomeAbstract::class, 'income_registration_id');
+    }
 }

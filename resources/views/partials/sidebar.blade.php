@@ -19,13 +19,13 @@
     ],
   ];
 
-  if (auth()->check() && auth()->user()->hasRole('admin')) {
+  if (Auth::user()->hasRole('admin')) {
     $menus[] = [
       'label' => 'Admin',
       'icon'  => 'M4 6h16M4 12h16M4 18h16', // ikon "menu" sederhana
       'children' => [
-        // ['label' => 'Rekap INSVIDAY', 'href' => route('admin.insviday.index'), 'active'=> request()->routeIs('admin.insviday.*')],
-        // ['label' => 'Rekap INCOME',   'href' => route('admin.income.index'),   'active'=> request()->routeIs('admin.income.*')],
+        ['label' => 'Rekap INSVIDAY', 'href' => route('admin.insviday.index'), 'active'=> request()->routeIs('admin.insviday.*')],
+        ['label' => 'Rekap INCOME',   'href' => route('admin.income.index'),   'active'=> request()->routeIs('admin.income.*')],
         // ['label' => 'Rekap INSHOW',   'href' => route('admin.inshow.index'),   'active'=> request()->routeIs('admin.inshow.*')],
         // ['label' => 'Rekap INSTRY',   'href' => route('admin.instry.index'),   'active'=> request()->routeIs('admin.instry.*')],
       ],

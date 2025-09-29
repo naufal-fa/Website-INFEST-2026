@@ -19,8 +19,8 @@ class InsvidayController extends Controller
             ['date' => '2025-11-08', 'label' => '8 November 2025', 'open' => true],
             ['date' => '2025-11-09', 'label' => '9 November 2025', 'open' => true],
             // BATCH 2 (ditutup)
-            ['date' => '2025-11-29', 'label' => '29 November 2025', 'open' => false],
-            ['date' => '2025-11-30', 'label' => '30 November 2025', 'open' => false],
+            ['date' => '2025-11-29', 'label' => '29 November 2025', 'open' => true],
+            ['date' => '2025-11-30', 'label' => '30 November 2025', 'open' => true],
             // BATCH 3 (ditutup)
             ['date' => '2025-12-20', 'label' => '20 Desember 2025', 'open' => false],
             ['date' => '2025-12-21', 'label' => '21 Desember 2025', 'open' => false],
@@ -54,12 +54,12 @@ public function apply(Request $request)
 
     // Daftar tanggal yang diizinkan + mana yang terbuka
     $allowed = [
-        '2025-11-08' => true,
-        '2025-11-09' => true,
-        '2025-11-29' => false,
-        '2025-11-30' => false,
-        '2025-12-20' => false,
-        '2025-12-21' => false,
+        '2025-11-08' => true,  // open
+        '2025-11-09' => true,  // open
+        '2025-11-29' => true, // open
+        '2025-11-30' => true, // open
+        '2025-12-20' => false, // closed
+        '2025-12-21' => false, // closed
     ];
 
     $data = $request->validate([
@@ -67,7 +67,7 @@ public function apply(Request $request)
         'whatsapp'       => ['required','regex:/^62[0-9]{6,15}$/'],
         'school'         => ['required','string','max:150'],
         'visit_date'     => ['required','date'],
-        'payment_method' => ['required','in:ShopeePay,BRI,BCA,QRIS,Lainnya'],
+        'payment_method' => ['required','in:BRI,BCA,BNI'],
         'payment_proof'  => ['required','image','mimes:jpg,jpeg,png','max:5120'],
         'gdrive_link'    => ['required','url'],
     ]);

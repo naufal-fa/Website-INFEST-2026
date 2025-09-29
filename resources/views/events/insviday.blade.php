@@ -98,158 +98,152 @@
         </x-glass-card>
     </div>
 
-      {{-- PENDAFTARAN INSVIDAY --}}
-      <div x-data="{ step: {{ $step }} }" x-cloak class="mt-6">
-        <x-glass-card title="" subtitle="">
-          {{-- STEP 1: Form Pendaftaran --}}
-          <section x-show="step===1">
-            <h3 class="text-lg font-semibold text-gray-900">Pendaftaran INSVIDAY</h3>
-            <p class="mt-1 text-sm text-gray-700">Isi identitas dan unggah bukti pembayaran. Dokumen lain unggah ke satu folder Google Drive lalu tempelkan link-nya di bawah.</p>
+    {{-- PENDAFTARAN INSVIDAY --}}
+    <div x-data="{ step: {{ $step }} }" x-cloak class="mt-6 animate-float-in delay-700">
+      <x-glass-card title="" subtitle="">
+        {{-- STEP 1: Form Pendaftaran --}}
+        <section x-show="step===1">
+          <h3 class="text-lg font-semibold text-gray-900">Pendaftaran INSVIDAY</h3>
+          <p class="mt-1 text-sm text-gray-700">Isi identitas dan unggah bukti pembayaran. Dokumen lain unggah ke satu folder Google Drive lalu tempelkan link-nya di bawah.</p>
 
-            <form method="POST" action="{{ route('events.insviday.apply') }}" enctype="multipart/form-data" class="mt-4 space-y-5">
-              @csrf
+          <form method="POST" action="{{ route('events.insviday.apply') }}" enctype="multipart/form-data" class="mt-4 space-y-5">
+            @csrf
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="mb-1 block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                  <input name="full_name" value="{{ old('full_name') }}" required
-                        class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
-                  @error('full_name') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-                </div>
-                <div>
-                  <label class="mb-1 block text-sm font-medium text-gray-700">No. WhatsApp (format 62…)</label>
-                  <input name="whatsapp" value="{{ old('whatsapp') }}" placeholder="62812xxxxxxx" required
-                        class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
-                  @error('whatsapp') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-                  <p class="mt-1 text-xs text-gray-500">Contoh link chat: <span class="font-mono">https://wa.me/62xxxxxxxxxx</span></p>
-                </div>
-                <div class="sm:col-span-2">
-                  <label class="mb-1 block text-sm font-medium text-gray-700">Asal Sekolah</label>
-                  <input name="school" value="{{ old('school') }}" required
-                        class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
-                  @error('school') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-                </div>
-              </div>
-
-              {{-- Pilihan Batch & Tanggal --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Tanggal Kunjungan</label>
-                <select name="visit_date" required
-                        class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
-                  <option value="">-- Pilih Tanggal --</option>
-
-                  <optgroup label="Batch 1">
-                    <option value="2025-11-08" @selected(old('visit_date')==='2025-11-08')>8 Novemer 2025</option>
-                    <option value="2025-11-09" @selected(old('visit_date')==='2025-11-09')>9 November 2025</option>
-                  </optgroup>
-
-                  <optgroup label="Batch 2 (Ditutup)" disabled>
-                    <option disabled>29 November 2025</option>
-                    <option disabled>30 November 2025</option>
-                  </optgroup>
-
-                  {{-- <optgroup label="Batch 3 (Ditutup)" disabled>
-                    <option disabled>20 Desember 2025</option>
-                    <option disabled>21 Desember 2025</option>
-                  </optgroup> --}}
-                </select>
-                @error('visit_date') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-                <p class="mt-1 text-xs text-gray-500">Batch 2 & 3 akan dibuka menyusul.</p>
-              </div>
-
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="mb-1 block text-sm font-medium text-gray-700">Metode Pembayaran</label>
-                  <select name="payment_method" required
-                          class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
-                    <option value="">Pilih metode</option>
-                    @foreach (['BNI 1791801423 a/n : Riska Hidayati Laena','BCA 6730498495 RAFI MUHAMMAD ZHAFIR'] as $m)
-                      <option value="{{ $m }}" @selected(old('payment_method')===$m)>{{ $m }}</option>
-                    @endforeach
-                  </select>
-                  @error('payment_method') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-                  <p class="mt-1 text-xs text-gray-500">Tambahkan 1 rupiah, misal: 30.001</p>
-                </div>
-
-                <div>
-                  <label class="mb-1 block text-sm font-medium text-gray-700">Bukti Pembayaran (JPG/PNG, maks 5MB)</label>
-                  <input type="file" name="payment_proof" accept=".jpg,.jpeg,.png" required
-                        class="block w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5 file:mr-3 file:rounded-lg file:border-0 file:bg-gray-900 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-white hover:file:bg-black">
-                  @error('payment_proof') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-                </div>
-              </div>
-
-              <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Link Google Drive (semua dokumen)</label>
-                <input name="gdrive_link" value="{{ old('gdrive_link') }}" placeholder="https://drive.google.com/..." required
+                <label class="mb-1 block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                <input name="full_name" value="{{ old('full_name') }}" required
                       class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
-                <p class="mt-1 text-xs text-gray-500">
-                  Satukan di satu folder: <em>Kartu Tanda Pelajar</em>, <em>Bukti follow Instagram INFEST</em>, dan <em>Bukti follow Instagram Teknik Instrumentasi ITS</em>. Pastikan link dapat diakses (Anyone with the link).
-                </p>
-                @error('gdrive_link') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                @error('full_name') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
-
-              <div class="flex items-center gap-3 pt-2">
-                <button class="rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-black">
-                  Kirim Pendaftaran
-                </button>
+              <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">No. WhatsApp (format 62…)</label>
+                <input name="whatsapp" value="{{ old('whatsapp') }}" placeholder="62812xxxxxxx" required
+                      class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
+                @error('whatsapp') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                <p class="mt-1 text-xs text-gray-500">Contoh link chat: <span class="font-mono">https://wa.me/62xxxxxxxxxx</span></p>
               </div>
-            </form>
-          </section>
-
-          {{-- STEP 2: Menunggu Validasi Admin --}}
-          <section x-show="step===2">
-            <h3 class="text-lg font-semibold text-gray-900">Pendaftaran diterima ✅</h3>
-            <p class="mt-1 text-sm text-gray-700">Terima kasih! Berkas kamu sudah kami terima. Mohon tunggu verifikasi pembayaran dari panitia.</p>
-
-            @if(session('status'))
-              <div class="mt-3 rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">
-                {{ session('status') }}
+              <div class="sm:col-span-2">
+                <label class="mb-1 block text-sm font-medium text-gray-700">Asal Sekolah</label>
+                <input name="school" value="{{ old('school') }}" required
+                      class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
+                @error('school') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
-            @endif
-
-            @if($reg)
-              <div class="mt-4 rounded-xl border border-white/30 bg-white/60 p-4 text-sm text-gray-700">
-                <p><strong>Nama:</strong> {{ $reg->full_name }}</p>
-                <p class="mt-1"><strong>WA:</strong> <a class="underline" target="_blank" href="https://wa.me/{{ $reg->whatsapp }}">{{ $reg->whatsapp }}</a></p>
-                <p class="mt-1"><strong>Sekolah:</strong> {{ $reg->school }}</p>
-                <p class="mt-1"><strong>Metode Bayar:</strong> {{ $reg->payment_method }}</p>
-                <p class="mt-1">
-                  <strong>Tanggal:</strong>
-                  {{ optional($reg->visit_date)->timezone('Asia/Jakarta')->translatedFormat('d F Y') }}
-                </p>
-                <p class="mt-1"><strong>Bukti Bayar:</strong>
-                  <a class="underline" target="_blank" href="{{ asset('storage/app/private/' . $reg->payment_proof_path) }}">Lihat gambar</a>
-                </p>
-                <p class="mt-1"><strong>Link Drive:</strong> <a class="underline" href="{{ $reg->gdrive_link }}" target="_blank">{{ $reg->gdrive_link }}</a></p>
-                <p class="mt-2 text-xs text-gray-500">Status: <span class="font-medium">{{ strtoupper($reg->status) }}</span></p>
-              </div>
-            @endif
-          </section>
-
-          {{-- STEP 3: THANK YOU (muncul setelah APPROVED) --}}
-          <section x-show="step===3">
-            <h3 class="text-lg font-semibold text-gray-900">Terima kasih sudah mendaftar! 🎉</h3>
-            <p class="mt-1 text-sm text-gray-700">Pembayaranmu telah <strong>terverifikasi</strong>. Gabung ke grup WhatsApp di bawah supaya tidak ketinggalan info.</p>
-            <div class="mt-4 flex flex-wrap items-center gap-3">
-            <a target="_blank" rel="noopener"
-              href="{{ $waLink ?? '#' }}"
-              class="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-black {{ $waLink ? '' : 'pointer-events-none opacity-60' }}">
-              Gabung Grup WhatsApp
-            </a>
             </div>
-            <div class="mt-4 text-sm text-gray-700">
-              <p>Contact Person:</p>
-              <ul class="mt-1 list-disc pl-5">
-                <li>Selly — 0852-5791-7551</li>
-                <li>Rizky — 0831-1776-2023</li>
-              </ul>
+
+            {{-- Pilihan Batch & Tanggal --}}
+            <div>
+              <label class="mb-1 block text-sm font-medium text-gray-700">Tanggal Kunjungan</label>
+              <select name="visit_date" required
+                      class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
+                <option value="">-- Pilih Tanggal --</option>
+
+                <optgroup label="Batch 1">
+                  <option value="2025-11-08" @selected(old('visit_date')==='2025-11-08')>8 Novemer 2025</option>
+                  <option value="2025-11-09" @selected(old('visit_date')==='2025-11-09')>9 November 2025</option>
+                </optgroup>
+
+                <optgroup label="Batch 2">
+                  <option>29 November 2025</option>
+                  <option>30 November 2025</option>
+                </optgroup>
+
+                {{-- <optgroup label="Batch 3 (Ditutup)" disabled>
+                  <option disabled>20 Desember 2025</option>
+                  <option disabled>21 Desember 2025</option>
+                </optgroup> --}}
+              </select>
+              @error('visit_date') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+              <p class="mt-1 text-xs text-gray-500">Batch 3 akan dibuka menyusul.</p>
             </div>
-          </section>
+
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">Metode Pembayaran</label>
+                <select name="payment_method" required
+                        class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
+                  <option value="">Pilih metode</option>
+                    <option value="BNI" @selected(old('payment_method'))>BNI 1791801423 a/n : Riska Hidayati Laena</option>
+                    <option value="BCA" @selected(old('payment_method'))>BCA 6730498495 RAFI MUHAMMAD ZHAFIR</option>
+                </select>
+                @error('payment_method') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                <p class="mt-1 text-xs text-gray-500">Tambahkan 1 rupiah, misal: 30.001</p>
+              </div>
+
+              <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">Bukti Pembayaran (JPG/PNG, maks 5MB)</label>
+                <input type="file" name="payment_proof" accept=".jpg,.jpeg,.png" required
+                      class="block w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5 file:mr-3 file:rounded-lg file:border-0 file:bg-gray-900 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-white hover:file:bg-black">
+                @error('payment_proof') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+              </div>
+            </div>
+
+            <div>
+              <label class="mb-1 block text-sm font-medium text-gray-700">Link Google Drive (semua dokumen)</label>
+              <input name="gdrive_link" value="{{ old('gdrive_link') }}" placeholder="https://drive.google.com/..." required
+                    class="w-full rounded-xl border border-white/30 bg-white/60 px-4 py-2.5">
+              <p class="mt-1 text-xs text-gray-500">
+                Satukan di satu folder: <em>Kartu Tanda Pelajar</em>, <em>Bukti follow Instagram INFEST</em>, dan <em>Bukti follow Instagram Teknik Instrumentasi ITS</em>. Pastikan link dapat diakses (Anyone with the link).
+              </p>
+              @error('gdrive_link') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div class="flex items-center gap-3 pt-2">
+              <button class="rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-black">
+                Kirim Pendaftaran
+              </button>
+            </div>
+          </form>
+        </section>
+
+        {{-- STEP 2: Menunggu Validasi Admin --}}
+        <section x-show="step===2">
+          <h3 class="text-lg font-semibold text-gray-900">Terima kasih sudah mendaftar! 🎉</h3>
+          <p class="mt-1 text-sm text-gray-700">Gabung ke grup WhatsApp di bawah supaya tidak ketinggalan info.</p>
+          <div class="mt-4 flex flex-wrap items-center gap-3">
+          <a target="_blank" rel="noopener"
+            href="{{ $waLink ?? '#' }}"
+            class="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-black {{ $waLink ? '' : 'pointer-events-none opacity-60' }}">
+            Gabung Grup WhatsApp
+          </a>
+          </div>
+          <div class="mt-4 text-sm text-gray-700">
+            <p>Contact Person:</p>
+            <ul class="mt-1 list-disc pl-5">
+              <li>Selly — 0852-5791-7551</li>
+              <li>Rizky — 0831-1776-2023</li>
+            </ul>
+          </div>
+
+          @if($reg)
+            <div class="mt-4 rounded-xl border border-white/30 bg-white/60 p-4 text-sm text-gray-700">
+              <p><strong>Nama:</strong> {{ $reg->full_name }}</p>
+              <p class="mt-1"><strong>WA:</strong> <a class="underline" target="_blank" href="https://wa.me/{{ $reg->whatsapp }}">{{ $reg->whatsapp }}</a></p>
+              <p class="mt-1"><strong>Sekolah:</strong> {{ $reg->school }}</p>
+              <p class="mt-1"><strong>Metode Bayar:</strong> {{ $reg->payment_method }}</p>
+              <p class="mt-1">
+                <strong>Tanggal:</strong>
+                {{ optional($reg->visit_date)->timezone('Asia/Jakarta')->translatedFormat('d F Y') }}
+              </p>
+              <p class="mt-1"><strong>Bukti Bayar:</strong>
+                <a class="underline" target="_blank" href="{{ asset('storage/app/private/' . $reg->payment_proof_path) }}">Lihat gambar</a>
+              </p>
+              <p class="mt-1"><strong>Link Drive:</strong> <a class="underline" href="{{ $reg->gdrive_link }}" target="_blank">{{ $reg->gdrive_link }}</a></p>
+            </div>
+          @endif
+        </section>
+      </x-glass-card>
+    </div>
+
+    {{-- POSTER --}}
+    <div class="animate-float-in delay-1000 mt-6">
+        <x-glass-card title="" subtitle="">
+          <div class="mb-5">
+              <img src="{{ asset('images/insviday/POSTER INSVIDAY.png') }}" alt="Poster INSVIDAY" srcset="">
+          </div>
         </x-glass-card>
-      </div>
-
+    </div>
 
     {{-- FAQ (revisi) --}}
   <div id="faq" class="mt-6 animate-float-in delay-1300">
@@ -266,7 +260,7 @@
           </summary>
           <div class="px-4 pb-4 text-sm text-gray-700">
             <p>
-              INSVIDAY adalah “Instrumentation Visit Day” merupakan serangkaian acara yang terdiri dari sesi sehari menjadi mahasiswa Teknik Instrumentasi dengan merasakan diajar oleh Dosen, praktikum di laboratorium, serta berkeliling di ITS. INSVIDAY sekaligus sebagai acara pembuka dari INFEST 2026. Kegiatan ini dirancang khusus untuk memperkenalkan Departemen Teknik Instrumentasi, Institut Teknologi Sepuluh Nopember.
+INSVIDAY adalah “Instrumentation Visit Day” merupakan serangkaian acara yang terdiri dari sesi sehari menjadi mahasiswa Teknik Instrumentasi dengan merasakan diajar oleh Dosen, praktikum di laboratorium, serta berkeliling di ITS. INSVIDAY sekaligus sebagai acara pembuka dari INFEST 2026. Kegiatan ini dirancang khusus untuk memperkenalkan Departemen Teknik Instrumentasi, Institut Teknologi Sepuluh Nopember.
             </p>
           </div>
         </details>
@@ -324,7 +318,7 @@
             </svg>
           </summary>
           <div class="px-4 pb-4 text-sm text-gray-700">
-            <p>Klik link yang ada di bio Instagram kita, lalu klik pendaftaran talkshow, nantinya akan masuk ke web infest kemudian pilih pendaftaran INSVIDAY.</p>
+            <p>Klik link yang ada di poster open registration, atau bisa juga mengikuti tutorial pendaftaran pada feeds Instagram @infest.its. Jika masih ada hal yang ingin ditanyakan, peserta dapat menghubungi Contact Person yang sudah disediakan😁🤙🏻</p>
           </div>
         </details>
 
@@ -350,7 +344,7 @@
             </svg>
           </summary>
           <div class="px-4 pb-4 text-sm text-gray-700">
-            <p>Iya, pada Insviday tahun ini terdapat HTM sebesar Rp. 35.000, Tapi tenang aja sobat infest, karena dengan HTM tersebut teman-teman sudah mendapatkan konsumsi dan merch!!</p>
+            <p>Iya, Pada Insviday tahun ini terdapat HTM sebesar Rp. 30.000, Tapi tenang aja sobat infest, karena dengan HTM tersebut teman-teman sudah mendapatkan konsumsi dan merch!!</p>
           </div>
         </details>
 

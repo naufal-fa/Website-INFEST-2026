@@ -19,11 +19,12 @@ Route::middleware(['auth', 'role:admin'])
     ->as('admin.')
     ->group(function () {
         // INSVIDAY
-        // Route::get('/insviday/registrations', [InsvidayAdminController::class, 'index'])->name('insviday.index');
-        // Route::get('/insviday/registrations/export', [InsvidayAdminController::class, 'export'])->name('insviday.export');
+        Route::get('/insviday/registrations', [InsvidayAdminController::class, 'index'])->name('insviday.index');
+        Route::get('/insviday/registrations/export', [InsvidayAdminController::class, 'export'])->name('insviday.export');
 
         // INCOME
-        // Route::get('/income/registrations',   [IncomeAdminController::class, 'index'])->name('income.index');
+        Route::get('/income/registrations',   [IncomeAdminController::class, 'index'])->name('income.index');
+        Route::get('/income/registrations/export', [IncomeAdminController::class, 'export'])->name('income.export');
 
         // INSHOW
         // Route::get('/inshow/registrations',   [InshowAdminController::class, 'index'])->name('inshow.index');
