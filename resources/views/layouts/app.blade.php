@@ -104,8 +104,8 @@
         <a href="{{ url('/') }}" class="flex items-center gap-2">
           <div class="relative h-9 w-9 overflow-hidden rounded-xl bg-white">
             <img
-              src="{{ asset('images/logo.png') }}"
-              srcset="{{ asset('images/logo.png') }} 1x, {{ asset('images/logo.png') }} 2x"
+              src="{{ asset('public/images/logo.png') }}"
+              srcset="{{ asset('public/images/logo.png') }} 1x, {{ asset('public/images/logo.png') }} 2x"
               alt="{{ config('app.name', 'App') }} logo"
               class="absolute inset-0 h-full w-full object-contain"
               loading="lazy"
